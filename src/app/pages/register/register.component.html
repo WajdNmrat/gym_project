@@ -1,0 +1,178 @@
+<!-- ===== Auth Register Page ===== -->
+<div class="layout-auth">
+  <!-- Gradient header -->
+  <div class="header bg-gradient-danger py-7 py-lg-8 position-relative">
+    <div class="container">
+      <div class="header-body text-center mb-7">
+        <div class="row justify-content-center">
+          <div class="col-lg-6 col-md-8">
+            <h1 class="text-white mb-3">Welcome!</h1>
+            <p class="text-lead text-light mb-0">
+              Use these awesome forms to create a free account for your project.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- موجّة سفلية -->
+    <div class="separator separator-bottom separator-skew zindex-100">
+      <svg viewBox="0 0 2560 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon fill="#f8f9fe" points="2560 0 2560 100 0 100"></polygon>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Page content -->
+  <div class="container mt--8 pb-5 auth-center">
+    <div class="row justify-content-center w-100">
+      <div class="col-lg-6 col-md-8">
+        <div class="card bg-secondary shadow border-0 auth-card">
+
+          <!-- Social buttons -->
+          <div class="card-header bg-transparent pb-4">
+            <div class="text-muted text-center mt-2 mb-3">
+              <small>Sign up with</small>
+            </div>
+            <div class="text-center">
+              <button type="button" class="btn btn-neutral btn-icon mr-3" aria-label="Continue with GitHub">
+                <span class="btn-inner--icon">
+                  <img src="assets/img/icons/common/github.svg" alt="GitHub">
+                </span>
+                <span class="btn-inner--text">GitHub</span>
+              </button>
+              <button type="button" class="btn btn-neutral btn-icon" aria-label="Continue with Google">
+                <span class="btn-inner--icon">
+                  <img src="assets/img/icons/common/google.svg" alt="Google">
+                </span>
+                <span class="btn-inner--text">Google</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Form -->
+          <div class="card-body px-lg-5 py-lg-5">
+            <div class="text-center text-muted mb-4">
+              <small>Or sign up with credentials</small>
+            </div>
+
+            <form [formGroup]="form" (ngSubmit)="submit()" novalidate autocomplete="on">
+              <!-- Name -->
+              <div class="form-group">
+                <label for="regName" class="sr-only">Name</label>
+                <div class="input-group input-group-alternative mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-hat-3" aria-hidden="true"></i></span>
+                  </div>
+                  <input id="regName"
+                         class="form-control"
+                         placeholder="Name"
+                         type="text"
+                         formControlName="name"
+                         autocomplete="name"
+                         required>
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="form-group">
+                <label for="regEmail" class="sr-only">Email</label>
+                <div class="input-group input-group-alternative mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-email-83" aria-hidden="true"></i></span>
+                  </div>
+                  <input id="regEmail"
+                         class="form-control"
+                         placeholder="Email"
+                         type="email"
+                         formControlName="email"
+                         autocomplete="email"
+                         required>
+                </div>
+              </div>
+
+              <!-- Password -->
+              <div class="form-group">
+                <label for="regPassword" class="sr-only">Password</label>
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-lock-circle-open" aria-hidden="true"></i></span>
+                  </div>
+                  <input id="regPassword"
+                         class="form-control"
+                         placeholder="Password"
+                         type="password"
+                         formControlName="password"
+                         autocomplete="new-password"
+                         minlength="8"
+                         required>
+                </div>
+                <small class="text-muted d-block mt-2">
+                  Password strength: <span class="text-success font-weight-700">strong</span>
+                </small>
+              </div>
+
+              <!-- Role -->
+              <div class="form-group">
+                <label for="regRole" class="sr-only">Role</label>
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="ni ni-badge" aria-hidden="true"></i></span>
+                  </div>
+                  <select id="regRole"
+                          class="form-control"
+                          formControlName="role"
+                          required>
+                    <option value="trainee">Trainee</option>
+                    <option value="trainer">Trainer</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </div>
+                <small class="text-muted d-block mt-2">اختر الدور عند إنشاء الحساب.</small>
+              </div>
+
+              <!-- Terms -->
+              <div class="row my-4">
+                <div class="col-12">
+                  <div class="custom-control custom-control-alternative custom-checkbox">
+                    <input id="customCheckRegister"
+                           type="checkbox"
+                           class="custom-control-input"
+                           [checked]="termsAccepted"
+                           (change)="termsAccepted = $event.target.checked">
+                    <label class="custom-control-label" for="customCheckRegister">
+                      <span class="text-muted">
+                        I agree with the
+                        <a href="#!" rel="noopener">Privacy Policy</a>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit -->
+              <div class="text-center">
+                <!-- ✅ الزر دائمًا مفعّل -->
+                <button type="submit"
+                        class="btn btn-primary mt-3">
+                  {{ loading ? 'Creating...' : 'Create account' }}
+                </button>
+              </div>
+
+              <!-- Link -->
+              <div class="text-center mt-3">
+                <small class="text-muted">
+                  Already have an account?
+                  <a routerLink="/login">Log in</a>
+                </small>
+              </div>
+
+              <!-- Alerts -->
+              <div *ngIf="errorMsg" class="alert alert-danger mt-3 mb-0">{{ errorMsg }}</div>
+              <div *ngIf="successMsg" class="alert alert-success mt-3 mb-0">{{ successMsg }}</div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

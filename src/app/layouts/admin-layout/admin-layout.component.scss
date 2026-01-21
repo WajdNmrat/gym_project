@@ -1,0 +1,16 @@
+.admin-shell {
+  display: flex;
+  align-items: stretch;
+}
+
+/* أعطي مساحة ثابتة للسايدبار على الشاشات الكبيرة */
+#sidenav-main {
+  width: 260px;
+  flex: 0 0 260px;
+  border-inline-end: 1px solid rgba(0,0,0,.06);
+}
+
+/* خلي المحتوى يتمدد */
+.main-panel {
+  min-width: 0;   /* مهم لعدم كسر الـ flex على RTL */
+}

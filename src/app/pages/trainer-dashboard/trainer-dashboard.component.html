@@ -1,0 +1,145 @@
+<div class="trainer-dashboard">
+
+  <!-- Hero / Gradient Header -->
+  <div class="dashboard-hero">
+    <div class="hero-inner">
+      <h2 class="hero-title">لوحة المدرّب</h2>
+      <p class="hero-sub">نظرة سريعة على نشاط متدرّبيك وخططهم</p>
+    </div>
+  </div>
+
+  <div class="container-fluid dashboard-content">
+
+    <!-- KPIs -->
+    <div class="row">
+      <div class="col-sm-6 col-lg-3 mb-3">
+        <div class="card stat-card glass">
+          <div class="card-body">
+            <div class="stat-label">كل المتدرّبين</div>
+            <div class="stat-value">{{ kpis.totalTrainees }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3 mb-3">
+        <div class="card stat-card glass">
+          <div class="card-body">
+            <div class="stat-label">نشِطون</div>
+            <div class="stat-value text-success">{{ kpis.activeTrainees }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3 mb-3">
+        <div class="card stat-card glass">
+          <div class="card-body">
+            <div class="stat-label">خطط متدرّبي</div>
+            <div class="stat-value">{{ kpis.myPlans }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3 mb-3">
+        <div class="card stat-card glass">
+          <div class="card-body">
+            <div class="stat-label">جلسات اليوم</div>
+            <div class="stat-value">{{ kpis.todaySessions }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="row">
+      <div class="col-lg-5 mb-3">
+        <div class="card chart-card glass h-100">
+          <div class="card-header pb-2">
+            <h5 class="mb-0">نشاط المتدرّبين</h5>
+            <small class="text-muted">Active vs Inactive</small>
+          </div>
+          <div class="card-body chart-body">
+            <canvas #doughnutRef></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-7 mb-3">
+        <div class="card chart-card glass h-100">
+          <div class="card-header pb-2">
+            <h5 class="mb-0">عدد الخطط لكل متدرّب (Top 8)</h5>
+            <small class="text-muted">نظرة سريعة</small>
+          </div>
+          <div class="card-body chart-body">
+            <canvas #barRef></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- جدول المتدرّبين -->
+    <div class="card glass">
+      <div class="card-header pb-2 d-flex align-items-center flex-wrap gap-2">
+        <h5 class="mb-0">قائمة المتدرّبين</h5>
+
+        <!-- فلترة بالعائلة: تظهر فقط للأدمن -->
+        <div class="ms-auto d-flex align-items-center gap-2" *ngIf="role === 'admin'">
+          <label class="mb-0 me-2 small text-muted">فلترة بالعائلة:</label>
+          <input
+            type="text"
+            class="form-control"
+            style="max-width: 220px"
+            [(ngModel)]="familyFilter"
+            (ngModelChange)="onFamilyFilterChange()"
+            placeholder="اكتب الكنية / العائلة">
+          <button class="btn btn-sm btn-outline-secondary" (click)="clearFamilyFilter()">مسح</button>
+        </div>
+
+        <span class="small text-muted" [class.ms-auto]="role !== 'admin'">الإجمالي: {{ kpis.totalTrainees }}</span>
+      </div>
+
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover mb-0 nice-table">
+            <thead>
+              <tr>
+                <th>المستخدم</th>
+                <th>الاسم</th>
+                <th>الحالة</th>
+                <th>عدد الخطط</th>
+                <th>آخر نشاط</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- نعرض الصفوف بعد الفلترة -->
+              <tr *ngFor="let t of filteredRows">
+                <td class="mono">
+                  <a
+                    [routerLink]="['/user-profile']"
+                    [queryParams]="{ id: t.id }"
+                    target="_blank" rel="noopener"
+                    class="fw-600 text-primary"
+                    title="فتح بروفايل المتدرّب في تبويب جديد">
+                    {{ t.username }}
+                  </a>
+                </td>
+                <td>{{ t.first_name || '-' }} {{ t.last_name || '' }}</td>
+                <td>
+                  <span class="badge"
+                        [class.badge-success]="t.is_active"
+                        [class.badge-secondary]="!t.is_active">
+                    {{ t.is_active ? 'Active' : 'Inactive' }}
+                  </span>
+                </td>
+                <td>{{ t.plan_count || 0 }}</td>
+                <td>{{ t.last_activity || '-' }}</td>
+              </tr>
+              <tr *ngIf="filteredRows.length === 0">
+                <td colspan="5" class="text-center text-muted py-3">
+                  لا يوجد متدرّبين للعرض
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

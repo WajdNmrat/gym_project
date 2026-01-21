@@ -1,0 +1,180 @@
+<!-- src/app/pages/trainee-dashboard/trainee-dashboard.component.html -->
+<div class="trainee-dashboard">
+
+  <!-- Hero / Gradient Header -->
+  <div class="dashboard-hero">
+    <div class="hero-inner">
+      <h2 class="hero-title">لوحة المتدرّب</h2>
+      <p class="hero-sub">نظرة عامة على خططك ونشاطك الأسبوعي</p>
+    </div>
+  </div>
+
+  <div class="container-fluid dashboard-content">
+
+    <!-- KPIs -->
+    <div class="row">
+      <div class="col-sm-6 col-lg-3 mb-3">
+        <div class="card stat-card glass h-100">
+          <div class="card-body">
+            <div class="stat-label">كل الخطط</div>
+            <div class="stat-value">{{ kpis.totalPlans }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3 mb-3">
+        <div class="card stat-card glass h-100">
+          <div class="card-body">
+            <div class="stat-label">خطط فعّالة</div>
+            <div class="stat-value text-success">{{ kpis.activePlans }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3 mb-3">
+        <div class="card stat-card glass h-100">
+          <div class="card-body">
+            <div class="stat-label">متوسط أيام/أسبوع</div>
+            <div class="stat-value">{{ kpis.avgDaysPerWeek }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6 col-lg-3 mb-3">
+        <div class="card stat-card glass h-100">
+          <div class="card-body">
+            <div class="stat-label">متوسط المدة (د)</div>
+            <div class="stat-value">{{ kpis.avgDuration }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="row">
+      <div class="col-lg-5 mb-3">
+        <div class="card chart-card glass h-100">
+          <div class="card-header pb-2">
+            <h5 class="mb-0">حالة الخطط</h5>
+            <small class="text-muted">Active vs Inactive</small>
+          </div>
+          <div class="card-body chart-body">
+            <canvas #doughnutRef></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-7 mb-3">
+        <div class="card chart-card glass h-100">
+          <div class="card-header pb-2">
+            <h5 class="mb-0">توزيع الخطط حسب أيام/أسبوع</h5>
+            <small class="text-muted">نظرة سريعة على إعداداتك الأسبوعية</small>
+          </div>
+          <div class="card-body chart-body">
+            <canvas #barRef></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- خطة اليوم -->
+    <div class="row">
+      <div class="col-12 mb-3">
+        <div class="card glass border-success">
+          <div class="card-header pb-2 d-flex align-items-center justify-content-between">
+            <div>
+              <h5 class="mb-0 text-success">خطة اليوم ({{ todayLabel }})</h5>
+              <small class="text-muted">الخطط الخاصة بهذا اليوم فقط</small>
+            </div>
+
+            <!-- اسم المدرّب -->
+            <small class="text-muted">
+              المدرّب:
+              <ng-container *ngIf="trainerId; else noTrainer">
+                <a
+                  [routerLink]="['/user-profile']"
+                  [queryParams]="{ id: trainerId }"
+                  target="_blank"
+                  rel="noopener"
+                  class="fw-600"
+                  title="فتح بروفايل المدرّب في تبويب جديد">
+                  {{ trainerName || '-' }}
+                </a>
+              </ng-container>
+              <ng-template #noTrainer>
+                <span class="fw-600">{{ trainerName || '-' }}</span>
+              </ng-template>
+            </small>
+          </div>
+
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover mb-0 nice-table">
+                <thead class="table-success">
+                  <tr>
+                    <th>العنوان</th>
+                    <th>الوصف</th>
+                    <th>أيام/أسبوع</th>
+                    <th>Sets</th>
+                    <th>Reps</th>
+                    <th>المدة (د)</th>
+                    <th>الأجهزة</th> <!-- 👈 العمود الجديد -->
+                    <th>المدرّب</th>
+                    <th>الحالة</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let p of todayPlans">
+                    <td class="fw-600">{{ p.title || '-' }}</td>
+                    <td class="text-truncate" style="max-width: 360px;">
+                      {{ p.description || '-' }}
+                    </td>
+                    <td>{{ p.days_per_week }}</td>
+                    <td>{{ p.sets }}</td>
+                    <td>{{ p.reps }}</td>
+                    <td>{{ p.duration_minutes }}</td>
+
+                    <!-- أسماء الأجهزة -->
+                    <td class="text-truncate" style="max-width: 320px;">
+                      {{ p['machines_names'] || '-' }}
+                    </td>
+
+                    <!-- المدرّب -->
+                    <td>
+                      <ng-container *ngIf="trainerId; else plainTrainer">
+                        <a
+                          [routerLink]="['/user-profile']"
+                          [queryParams]="{ id: trainerId }"
+                          target="_blank"
+                          rel="noopener"
+                          class="fw-600"
+                          title="فتح بروفايل المدرّب في تبويب جديد">
+                          {{ trainerName || '-' }}
+                        </a>
+                      </ng-container>
+                      <ng-template #plainTrainer>
+                        <span class="fw-600">{{ trainerName || '-' }}</span>
+                      </ng-template>
+                    </td>
+
+                    <td>
+                      <span class="badge" [ngClass]="p.is_active ? 'badge-success' : 'badge-secondary'">
+                        {{ p.is_active ? 'فعّالة' : 'متوقفة' }}
+                      </span>
+                    </td>
+                  </tr>
+
+                  <tr *ngIf="todayPlans.length === 0">
+                    <td colspan="9" class="text-center text-muted py-3">لا توجد خطة لهذا اليوم</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

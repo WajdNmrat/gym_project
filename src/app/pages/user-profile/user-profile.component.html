@@ -1,0 +1,230 @@
+<div
+  class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+  style="min-height: 300px;"
+>
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row w-100">
+      <div class="col-lg-8 col-md-10">
+        <h1 class="display-4 text-white mb-2">الملف الشخصي</h1>
+        <p class="text-white-50 mb-0">
+          عدّل معلوماتك واحفظها. المرة الجاية بتلاقيها متوفّرة زي ما تركتها.
+        </p>
+      </div>
+      <div class="col-lg-4 d-flex justify-content-lg-end mt-3 mt-lg-0">
+        <button
+          class="btn btn-info"
+          type="button"
+          [disabled]="saving"
+          (click)="save()"
+          aria-label="حفظ الملف الشخصي"
+        >
+          <span *ngIf="!saving">حفظ</span>
+          <span *ngIf="saving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--7">
+  <div class="row">
+    <!-- بطاقة الصورة البسيطة -->
+    <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+      <div class="card card-profile shadow">
+        <div class="card-profile-image text-center pt-4">
+          <img
+            src="assets/img/theme/team-4-800x800.png"
+            class="rounded-circle avatar-xl"
+            alt="User avatar"
+          />
+        </div>
+        <div class="card-body pt-5 text-center">
+          <h3 class="mb-1">
+            {{ form.first_name || '-' }} {{ form.last_name || '' }}
+          </h3>
+          <div class="text-muted">@{{ form.username || 'user' }}</div>
+          <hr />
+          <p class="mb-0 small text-muted">
+            {{ extras.about || 'اكتب نبذة قصيرة عنك من الأسفل.' }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- الفورم -->
+    <div class="col-xl-8 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <h3 class="mb-0">معلومات الحساب</h3>
+        </div>
+
+        <div class="card-body">
+          <form (ngSubmit)="save()" #profileForm="ngForm" autocomplete="off">
+            <h6 class="heading-small text-muted mb-3">User information</h6>
+            <div class="pl-lg-3">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="input-username">Username</label>
+                    <input
+                      id="input-username"
+                      name="username"
+                      type="text"
+                      class="form-control form-control-alternative"
+                      [(ngModel)]="form.username"
+                      required
+                      autocomplete="username"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="input-email">Email</label>
+                    <input
+                      id="input-email"
+                      name="email"
+                      type="email"
+                      class="form-control form-control-alternative"
+                      [(ngModel)]="form.email"
+                      autocomplete="email"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="input-first-name">First name</label>
+                    <input
+                      id="input-first-name"
+                      name="first_name"
+                      type="text"
+                      class="form-control form-control-alternative"
+                      [(ngModel)]="form.first_name"
+                      autocomplete="given-name"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <label for="input-last-name">Last name</label>
+                    <input
+                      id="input-last-name"
+                      name="last_name"
+                      type="text"
+                      class="form-control form-control-alternative"
+                      [(ngModel)]="form.last_name"
+                      autocomplete="family-name"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <!-- Contact (محلي فقط) -->
+            <h6 class="heading-small text-muted mb-3">Contact information (محلي)</h6>
+            <div class="pl-lg-3">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="input-address">Address</label>
+                    <input
+                      id="input-address"
+                      name="address"
+                      type="text"
+                      class="form-control form-control-alternative"
+                      [(ngModel)]="extras.address"
+                      placeholder="Home Address"
+                      autocomplete="street-address"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label for="input-city">City</label>
+                    <input
+                      id="input-city"
+                      name="city"
+                      type="text"
+                      class="form-control form-control-alternative"
+                      [(ngModel)]="extras.city"
+                      autocomplete="address-level2"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label for="input-country">Country</label>
+                    <input
+                      id="input-country"
+                      name="country"
+                      type="text"
+                      class="form-control form-control-alternative"
+                      [(ngModel)]="extras.country"
+                      autocomplete="country-name"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-lg-4">
+                  <div class="form-group">
+                    <label for="input-postal-code">Postal code</label>
+                    <input
+                      id="input-postal-code"
+                      name="postal_code"
+                      type="text"
+                      class="form-control form-control-alternative"
+                      [(ngModel)]="extras.postal_code"
+                      autocomplete="postal-code"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <!-- About me (محلي فقط) -->
+            <h6 class="heading-small text-muted mb-3">About me (محلي)</h6>
+            <div class="pl-lg-3">
+              <div class="form-group">
+                <label for="about">About Me</label>
+                <textarea
+                  id="about"
+                  name="about"
+                  rows="4"
+                  class="form-control form-control-alternative"
+                  [(ngModel)]="extras.about"
+                  placeholder="اكتب نبذة قصيرة عنك..."
+                ></textarea>
+              </div>
+            </div>
+
+            <div class="text-right">
+              <button
+                class="btn btn-primary"
+                type="submit"
+                [disabled]="saving || profileForm.invalid"
+                aria-label="حفظ التغييرات"
+              >
+                <span *ngIf="!saving">حفظ</span>
+                <span *ngIf="saving" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

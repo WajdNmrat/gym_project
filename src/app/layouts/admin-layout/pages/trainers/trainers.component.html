@@ -1,0 +1,48 @@
+<!-- src/app/layouts/admin-layout/pages/trainers/trainers.component.html -->
+<div class="card p-3">
+  <h5 class="mb-3">Trainers</h5>
+
+  <div class="d-flex align-items-center gap-2 mb-3 flex-wrap">
+
+    <!-- فلتر الحالة -->
+    <select class="form-control w-auto" [(ngModel)]="activeFilter" (change)="load()">
+      <option value="all">كل الحالات</option>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+    </select>
+
+    <!-- فلتر العائلة (last_name) -->
+    <div class="d-flex align-items-center gap-2">
+      <input
+        type="text"
+        class="form-control"
+        style="max-width: 240px"
+        [(ngModel)]="familyQ"
+        (ngModelChange)="applyFilters()"
+        placeholder="فلترة بالعائلة (مثال: nmrat)">
+      <button class="btn btn-outline-secondary" type="button" (click)="clearFamilyFilter()">
+        مسح
+      </button>
+    </div>
+
+    <!-- زر ترتيب الاسم -->
+    <button class="btn btn-outline-primary ms-2" (click)="toggleOrder()">
+      فرز الاسم: {{ order === 'asc' ? 'تصاعدي' : 'تنازلي' }}
+    </button>
+
+    <div class="ms-auto">
+      <!-- منستخدم شاشة المستخدمين للإضافة بدون تكرار فورم -->
+      <a class="btn btn-success" routerLink="/users">إضافة مدرّب</a>
+    </div>
+  </div>
+
+  <app-generic-table
+    [cols]="cols"
+    [rows]="filteredRows"
+    [loading]="loading"
+    [clickableKey]="'username'"
+    (rowClick)="openDetails($event)"
+    (edit)="edit($event)"
+    (remove)="remove($event)">
+  </app-generic-table>
+</div>

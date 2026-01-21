@@ -1,0 +1,176 @@
+/* --- Global & RTL quick fixes --- */
+html, body { height: 100%; }
+body { overflow-x: hidden; font-family: 'Open Sans', sans-serif; }
+
+html[dir="rtl"], body[dir="rtl"] { direction: rtl; text-align: right; }
+
+/* layout shell */
+.main-content { min-height: 100vh; display: flex; }
+.main-panel { flex: 1 1 auto; display: flex; flex-direction: column; min-width: 0; }
+.content { flex: 1 1 auto; padding: 1rem; }
+
+/* side nav over content level */
+.navbar-vertical { z-index: 1030; }
+
+/* cards sometimes clip dropdowns in Argon */
+.card { overflow: visible; }
+
+/* footer always normal flow */
+.footer, footer { position: static !important; }
+
+/* Toolbar spacing */
+.toolbar { display: flex; align-items: center; gap: .5rem; }
+.toolbar .grow { flex: 1 1 280px; }
+
+/* Bootstrap 4 utilities shim */
+.me-2 { margin-right: .5rem !important; }
+.ms-auto { margin-left: auto !important; }
+
+/* Table responsiveness */
+.table-responsive { width: 100%; overflow-x: auto; }
+.table td, .table th { vertical-align: middle; }
+
+/* clickable cell link style */
+a.table-link { text-decoration: none; }
+a.table-link:hover { text-decoration: underline; }
+
+/* ====== Layout Vars ====== */
+:root {
+  --sidenav-width: 250px; /* كبّر/صغّر على مزاجك: 220–280px حلو */
+}
+
+/* ====== Fix the vertical navbar position to LEFT ====== */
+#sidenav-main.navbar-vertical {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;          /* مهم: يسار */
+  right: auto;      /* الغِ أي RTL يحطه يمين */
+  width: var(--sidenav-width);
+  height: 100vh;
+  overflow-y: auto;
+  border-right: 1px solid #e9ecef;
+  z-index: 1030;    /* فوق المحتوى، تحت المودال */
+  padding-top: .5rem;
+}
+
+/* جسم الموقع يبلّش بعد السايدبار */
+.main-content {
+  margin-left: var(--sidenav-width);
+  min-height: 100vh;
+}
+
+/* التزام العرض */
+.main-content .main-panel {
+  width: calc(100% - var(--sidenav-width));
+}
+
+/* ====== Responsive (<= LG) ====== */
+@media (max-width: 991.98px) {
+  #sidenav-main.navbar-vertical {
+    transform: translateX(-100%);  /* مخفي افتراضيًا بالموبايل */
+    transition: transform .2s ease-in-out;
+    width: 85vw;
+    max-width: 320px;
+  }
+  /* لما isCollapsed=false منضيف .show */
+  #sidenav-main.navbar-vertical.show {
+    transform: translateX(0);
+  }
+
+  .main-content,
+  .main-content .main-panel {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* تحسينات على الروابط والأيقونات */
+#sidenav-main .navbar-nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .55rem 1rem;
+  font-weight: 500;
+}
+
+#sidenav-main .navbar-nav .nav-link i {
+  width: 1.25rem;
+  text-align: center;
+}
+
+/* اختياري: نخفف ظل الهيدربار فوق السايدبار */
+#navbar-main { z-index: 1020; }
+
+/* ====== Modal stacking fix (خلفية المودال ما تغطيه) ====== */
+.modal-backdrop { z-index: 1040 !important; }  /* تحت المودال */
+.modal         { z-index: 1055 !important; }  /* فوق كل شي تاني */
+.modal .modal-dialog { pointer-events: all; }
+.modal-backdrop.show { opacity: 0.3; }        /* شفافية ألطف */
+
+/* ================================================================== */
+/* =======================  Auth Pages (Login/Register)  ============= */
+/* ================================================================== */
+
+/* حاوية عامة لصفحات الأوث */
+.layout-auth {
+  margin-left: 0 !important;        /* ما في سايدبار هون */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* خلفية مرتبة ثابتة */
+  background:
+    radial-gradient(1200px 600px at 85% 5%, rgba(255, 99, 132, .35), transparent 60%) ,
+    linear-gradient(135deg, #0f2742 0%, #0f2742 55%, #ff4157 55.1%, #ff6b6b 85%, #ff8a5c 100%);
+}
+
+/* نافيگيشين شفاف وخفيف */
+.layout-auth .navbar {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding-top: .75rem;
+}
+
+/* ألوان واضحة للروابط في الناف */
+.layout-auth .navbar .nav-link,
+.layout-auth .navbar .navbar-brand,
+.layout-auth .navbar i {
+  color: #fff !important;
+}
+.layout-auth .navbar .nav-link:hover { opacity: .85; }
+
+/* تمركز النماذج بالنص */
+.auth-center {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+/* كرت النموذج (استعمل هذا الكلاس في تمپليت اللوجن/ريجستر إن بدك) */
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,.12);
+  padding: 1.25rem;
+}
+
+/* الفوتر بصفحات الأوث */
+.auth-footer {
+  background: transparent !important;
+  color: rgba(255,255,255,.85);
+}
+.auth-footer .nav .nav-link { color: rgba(255,255,255,.9); }
+.auth-footer .nav .nav-link:hover { color: #fff; }
+
+/* موبايل: خفّف الجرانديانت شوية */
+@media (max-width: 575.98px) {
+  .layout-auth {
+    background:
+      radial-gradient(900px 420px at 90% 0%, rgba(255, 99, 132, .32), transparent 58%) ,
+      linear-gradient(145deg, #0f2742 0%, #0f2742 62%, #ff6b6b 62.5%, #ff8a5c 100%);
+  }
+}

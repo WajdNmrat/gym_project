@@ -1,0 +1,64 @@
+<div class="contact-page">
+
+  <!-- Hero -->
+  <div class="contact-hero">
+    <div class="container">
+      <h1 class="title">Contact Us</h1>
+      <p class="subtitle">بنرحّب فيك بأي وقت — تقدر تتواصل معنا أو تمرّ لعندنا</p>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="container contact-body">
+    <div class="row g-3">
+
+      <!-- Card: Address -->
+      <div class="col-lg-4 col-md-6">
+        <div class="info-card">
+          <div class="icon-wrap">
+            <i class="ni ni-pin-3"></i>
+          </div>
+          <h5 class="info-title">العنوان</h5>
+          <p class="info-text">{{ club.address }}</p>
+          <a class="info-link" [href]="club.mapUrl" target="_blank" rel="noopener">افتح على الخريطة</a>
+        </div>
+      </div>
+
+      <!-- Card: Hours -->
+      <div class="col-lg-4 col-md-6">
+        <div class="info-card">
+          <div class="icon-wrap">
+            <i class="ni ni-watch-time"></i>
+          </div>
+          <h5 class="info-title">ساعات العمل</h5>
+          <ul class="info-list">
+            <li *ngFor="let h of club.hours">
+              <span class="days">{{ h.days }}</span>
+              <span class="time">{{ h.time }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Card: Contact -->
+      <div class="col-lg-4">
+        <div class="info-card">
+          <div class="icon-wrap">
+            <i class="ni ni-mobile-button"></i>
+          </div>
+          <h5 class="info-title">تواصل معنا</h5>
+          <div class="info-line">
+            <span class="label">هاتف:</span>
+            <a class="value" [href]="'tel:' + club.phone">{{ club.phone }}</a>
+          </div>
+          <div class="info-line">
+            <span class="label">إيميل:</span>
+            <a class="value" [href]="'mailto:' + club.email">{{ club.email }}</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

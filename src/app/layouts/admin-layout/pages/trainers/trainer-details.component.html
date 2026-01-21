@@ -1,0 +1,45 @@
+<div class="card p-3" *ngIf="trainer">
+  <h5 class="mb-3">تفاصيل المدرّب</h5>
+
+  <div class="mb-3">
+    <strong>Username:</strong> {{ trainer?.username }}<br>
+    <strong>الاسم:</strong> {{ trainer?.first_name || '-' }} {{ trainer?.last_name || '' }}<br>
+    <strong>الحالة:</strong> {{ trainer?.is_active ? 'Active' : 'Inactive' }}
+  </div>
+
+  <div class="d-flex align-items-center gap-2 mb-3">
+    <select class="form-control w-auto" [(ngModel)]="activeFilter" (change)="applyFilter()">
+      <option value="all">كل الحالات</option>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+    </select>
+
+    <button class="btn btn-outline-primary ms-2" (click)="toggleOrder()">
+      فرز الاسم: {{ order === 'asc' ? 'تصاعدي' : 'تنازلي' }}
+    </button>
+  </div>
+
+  <app-generic-table
+    [cols]="[
+      { key: 'username',   label: 'اسم المستخدم' },
+      { key: 'first_name', label: 'الاسم الأول' },
+      { key: 'last_name',  label: 'العائلة' },
+      { key: 'is_active',  label: 'نشِط' }
+    ]"
+    [rows]="trainees"
+    [loading]="loading"
+    [actionsTpl]="actions">
+  </app-generic-table>
+
+  <ng-template #actions let-row>
+    <button class="btn btn-sm btn-info me-2" (click)="editUser(row)">تعديل</button>
+    <button class="btn btn-sm" [ngClass]="row.is_active ? 'btn-warning' : 'btn-success'"
+            (click)="toggleActive(row)">
+      {{ row.is_active ? 'تعطيل' : 'تفعيل' }}
+    </button>
+  </ng-template>
+
+  <div class="mt-2 text-muted" *ngIf="!loading && trainees?.length === 0">
+    لا يوجد متدرّبون لهذا المدرّب.
+  </div>
+</div>

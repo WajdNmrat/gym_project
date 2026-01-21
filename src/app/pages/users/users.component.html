@@ -1,0 +1,94 @@
+<!-- src/app/pages/users/users.component.html -->
+<div class="card p-3">
+  <div class="d-flex align-items-center justify-content-between">
+    <h5 class="mb-3">Users</h5>
+    <div *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div>
+  </div>
+
+  <!-- فورم إضافة/تعديل مستخدم -->
+  <form [formGroup]="form" (ngSubmit)="submit()" class="mb-3">
+    <div class="form-row">
+      <!-- Username -->
+      <div class="col-md-3 mb-2">
+        <input formControlName="username"
+               class="form-control"
+               placeholder="Username" />
+      </div>
+
+      <!-- Password (مطلوب فقط عند الإضافة، بنفحصه بالـTS) -->
+      <div class="col-md-3 mb-2">
+        <input formControlName="password"
+               class="form-control"
+               placeholder="Password"
+               type="password" />
+        <small class="text-muted" *ngIf="form.value.id">اتركه فاضي إذا بدك تضل كلمة السر زي ما هي</small>
+      </div>
+
+      <!-- Role -->
+      <div class="col-md-3 mb-2">
+        <select formControlName="role" class="form-control">
+          <option value="admin">admin</option>
+          <option value="trainer">trainer</option>
+          <option value="trainee">trainee</option>
+        </select>
+      </div>
+
+      <!-- Active -->
+      <div class="col-md-2 mb-2 d-flex align-items-center">
+        <div class="custom-control custom-checkbox">
+          <input id="chkActive" type="checkbox" formControlName="is_active" class="custom-control-input" />
+          <label for="chkActive" class="custom-control-label">Active</label>
+        </div>
+      </div>
+
+      <!-- زر الإرسال -->
+      <div class="col-md-1 mb-2">
+        <button class="btn btn-primary btn-block" type="submit" [disabled]="loading">
+          {{ form.value.id ? 'Update' : 'Add' }}
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <!-- جدول المستخدمين -->
+  <!-- إذا عندك كمبوننت جاهز للجدول -->
+  <app-generic-table
+    [cols]="cols"
+    [rows]="data"
+    [loading]="loading"
+    (edit)="edit($event)"
+    (remove)="remove($event)">
+  </app-generic-table>
+
+  <!-- بديل (اختياري): جدول بسيط بدون الكمبوننت الجاهز
+  <div class="table-responsive">
+    <table class="table table-striped table-hover table-sm">
+      <thead class="thead-light">
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Role</th>
+          <th>Active</th>
+          <th style="width:120px">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of data">
+          <td>{{ u.id }}</td>
+          <td>{{ u.username }}</td>
+          <td>{{ u.role }}</td>
+          <td>
+            <span class="badge" [ngClass]="u.is_active ? 'badge-success' : 'badge-secondary'">
+              {{ u.is_active ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary mr-1" (click)="edit(u)">Edit</button>
+            <button class="btn btn-sm btn-outline-danger" (click)="remove(u)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  -->
+</div>

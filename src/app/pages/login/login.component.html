@@ -1,0 +1,119 @@
+<!-- Login | Clean hero + centered auth card -->
+<div class="login-page">
+
+  <!-- Hero -->
+  <div class="auth-hero py-7 py-lg-8">
+    <div class="container">
+      <div class="header-body text-center mb-4">
+        <h1 class="text-white mb-2">Welcome</h1>
+        <p class="text-light-70 mb-0">Sign in to continue to your dashboard.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Centered Card -->
+  <div class="container login-center">
+    <div class="d-flex justify-content-center align-items-center w-100">
+      <div class="auth-card shadow border-0">
+        <div class="card-header bg-transparent pb-3">
+          <div class="text-center text-muted mt-1 mb-2">
+            <small>Sign in with</small>
+          </div>
+          <div class="btn-wrapper text-center">
+            <a href="javascript:void(0)" class="btn btn-neutral btn-icon me-2">
+              <span class="btn-inner--icon">
+                <img src="assets/img/icons/common/github.svg" alt="github">
+              </span>
+              <span class="btn-inner--text">Github</span>
+            </a>
+            <a href="javascript:void(0)" class="btn btn-neutral btn-icon">
+              <span class="btn-inner--icon">
+                <img src="assets/img/icons/common/google.svg" alt="google">
+              </span>
+              <span class="btn-inner--text">Google</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="card-body px-lg-5 py-lg-4">
+          <div class="text-center text-muted mb-3">
+            <small>Or sign in with credentials</small>
+          </div>
+
+          <form role="form" #f="ngForm" (ngSubmit)="submit()" novalidate>
+            <!-- Username -->
+            <div class="form-group mb-3">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                </div>
+                <input
+                  class="form-control"
+                  name="username"
+                  [(ngModel)]="username"
+                  placeholder="Username"
+                  type="text"
+                  required
+                  autocomplete="username"
+                >
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+              <div class="input-group input-group-alternative">
+                <div class="input-group-prepend">
+                  <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                </div>
+                <input
+                  class="form-control"
+                  name="password"
+                  [(ngModel)]="password"
+                  placeholder="Password"
+                  type="password"
+                  required
+                  autocomplete="current-password"
+                  (keyup.enter)="submit()"
+                >
+              </div>
+            </div>
+
+            <!-- Remember -->
+            <div class="custom-control custom-control-alternative custom-checkbox mb-3">
+              <input
+                class="custom-control-input"
+                id="customCheckLogin"
+                type="checkbox"
+                [(ngModel)]="remember"
+                name="remember"
+              >
+              <label class="custom-control-label" for="customCheckLogin">
+                <span class="text-muted">Remember me</span>
+              </label>
+            </div>
+
+            <!-- Error -->
+            <div class="text-danger mt-2 text-center" *ngIf="errorMsg">{{ errorMsg }}</div>
+
+            <!-- Submit -->
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary my-3" [disabled]="loading || f.invalid">
+                <span *ngIf="!loading">Sign in</span>
+                <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div class="row mt-3 px-4">
+          <div class="col-6">
+            <a href="javascript:void(0)" class="text-muted"><small>Forgot password?</small></a>
+          </div>
+          <div class="col-6 text-right">
+            <a  class="text-muted"><small>Create new account</small></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

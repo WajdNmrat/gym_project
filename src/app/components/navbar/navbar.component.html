@@ -1,0 +1,41 @@
+<!-- src/app/components/navbar/navbar.component.html -->
+<nav id="navbar-main" class="navbar navbar-top navbar-dark navbar-compact">
+  <div class="container-fluid justify-content-end">
+
+    <!-- قائمة المستخدم (الصورة + الاسم) -->
+    <ul class="navbar-nav align-items-center">
+      <li class="nav-item dropdown" ngbDropdown placement="bottom-right">
+        <a class="nav-link p-0" ngbDropdownToggle role="button">
+          <div class="user-pill d-flex align-items-center">
+            <span class="avatar avatar-sm rounded-circle me-2">
+              <img alt="User" src="assets/img/theme/team-4-800x800.png" />
+            </span>
+            <span class="user-name text-white fw-bold">
+              {{ username || 'User' }}
+              <span class="role text-light-50">({{ role | titlecase }})</span>
+            </span>
+          </div>
+        </a>
+
+        <!-- القائمة المنسدلة -->
+        <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow shadow-lg"
+             ngbDropdownMenu dir="rtl">
+          <div class="dropdown-header noti-title text-center">
+            <h6 class="text-overflow m-0">مرحبًا {{ username || 'User' }} 👋</h6>
+          </div>
+
+          <a class="dropdown-item" routerLink="/user-profile">
+            <i class="ni ni-single-02 text-primary"></i>
+            <span>الملف الشخصي</span>
+          </a>
+          <div class="dropdown-divider"></div>
+
+          <button class="dropdown-item text-danger" (click)="logout()">
+            <i class="ni ni-user-run"></i>
+            <span>تسجيل الخروج</span>
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

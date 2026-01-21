@@ -1,0 +1,153 @@
+<!-- src/app/layouts/admin-layout/pages/plans/plans.component.html -->
+<div class="card p-3">
+  <h5 class="mb-3">إدارة الخطط التدريبية</h5>
+
+  <!-- اختيار المتدرّب -->
+  <div class="form-group mb-3">
+    <label>اختر المتدرّب</label>
+    <select class="form-control" [(ngModel)]="selectedTraineeId" (change)="onSelectTrainee()">
+      <option [ngValue]="null">-- اختر -- (عرض كل الخطط)</option>
+      <option *ngFor="let t of trainees" [ngValue]="t.id">
+        {{ t.username }} ({{ t.first_name || '-' }} {{ t.last_name || '' }})
+      </option>
+    </select>
+    <small class="text-muted d-block mt-1">
+      عند اختيار “-- اختر --” سيتم عرض جميع الخطط لكل المتدرّبين.
+    </small>
+  </div>
+
+  <!-- شريط أدوات: بحث + إضافة (زر الإضافة يظهر فقط للمدرّب) -->
+  <div class="toolbar mb-3 d-flex gap-2 align-items-center">
+    <input
+      class="form-control grow"
+      placeholder="ابحث بالعنوان..."
+      [(ngModel)]="q"
+      (ngModelChange)="onSearchChange()">
+
+    <!-- ✅ زر إضافة خطة جديدة يظهر فقط إذا كان الدور Trainer -->
+    <button
+      *ngIf="role === 'trainer'"
+      class="btn btn-primary ms-auto"
+      [disabled]="!selectedTraineeId"
+      (click)="openAdd(addTpl)">
+      + إضافة خطة جديدة
+    </button>
+  </div>
+
+  <!-- جدول -->
+  <div class="table-responsive">
+    <app-generic-table
+      [cols]="cols"
+      [rows]="viewPlans"
+      [loading]="loadingPlans"
+      [actionsTpl]="actions">
+    </app-generic-table>
+  </div>
+
+  <!-- إجراءات الصف -->
+  <ng-template #actions let-row>
+    <button class="btn btn-sm btn-info mr-2" (click)="openEdit(row, addTpl)" [disabled]="!selectedTraineeId">تعديل</button>
+    <button class="btn btn-sm btn-danger" (click)="removePlan(row)" [disabled]="!selectedTraineeId">حذف</button>
+  </ng-template>
+
+  <div *ngIf="!loadingPlans && viewPlans.length === 0" class="text-muted mt-2">
+    لا توجد خطط مطابقة.
+  </div>
+</div>
+
+<!-- Modal: إضافة/تعديل خطة -->
+<ng-template #addTpl let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">{{ editMode ? 'تعديل الخطة' : 'إضافة خطة جديدة' }}</h5>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>عنوان الخطة</label>
+        <input class="form-control" [(ngModel)]="form.title" placeholder="مثلاً: Upper/Lower split">
+      </div>
+      <div class="form-group col-md-6">
+        <label>أيام/أسبوع</label>
+        <input type="number" class="form-control" [(ngModel)]="form.days_per_week" min="1" max="7">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label>Sets</label>
+        <input type="number" class="form-control" [(ngModel)]="form.sets" min="1">
+      </div>
+      <div class="form-group col-md-4">
+        <label>Reps</label>
+        <input type="number" class="form-control" [(ngModel)]="form.reps" min="1">
+      </div>
+      <div class="form-group col-md-4">
+        <label>المدة (دقائق)</label>
+        <input type="number" class="form-control" [(ngModel)]="form.duration_minutes" min="1">
+      </div>
+    </div>
+
+    <!-- الوصف -->
+    <div class="form-group">
+      <label>الوصف (اختياري)</label>
+      <textarea class="form-control" rows="3"
+                [(ngModel)]="form.description"
+                placeholder="ملاحظات مختصرة عن الخطة..."></textarea>
+    </div>
+
+    <!-- 🗓️ اختيار أيام الأسبوع (0=الأحد .. 6=السبت) -->
+    <div class="form-group">
+      <label class="d-block mb-2">أيام الأسبوع</label>
+      <div class="row g-2">
+        <div class="col-6 col-md-3" *ngFor="let d of weekDays">
+          <div class="form-check">
+            <input class="form-check-input"
+                   type="checkbox"
+                   [id]="'dow_'+d.value"
+                   [checked]="form.days.has(d.value)"
+                   (change)="toggleDay(d.value, $event.target.checked)">
+            <label class="form-check-label" [for]="'dow_'+d.value">
+              {{ d.label }} ({{ d.value }})
+            </label>
+          </div>
+        </div>
+      </div>
+      <small class="text-muted d-block mt-1">
+        الترميز مطابق لـ JavaScript: 0=Sunday .. 6=Saturday — للمقارنة لاحقًا مع <code>new Date().getDay()</code>.
+      </small>
+    </div>
+
+    <!-- الأجهزة -->
+    <div class="mb-2">
+      <label class="d-block">الأجهزة (Machines)</label>
+      <div *ngIf="loadingMachines" class="text-muted">...تحميل الأجهزة</div>
+      <div class="row" *ngIf="!loadingMachines">
+        <div class="col-md-6" *ngFor="let m of machines">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox"
+                   [id]="'m'+m.id"
+                   [checked]="form.machines.has(m.id)"
+                   (change)="toggleMachine(m.id, $event.target.checked)">
+            <label class="form-check-label" [for]="'m'+m.id">
+              {{ m.name }}
+            </label>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!loadingMachines && machines.length === 0" class="text-muted">
+        لا يوجد أجهزة مسجلة.
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-secondary" (click)="modal.dismiss()">إلغاء</button>
+    <button class="btn btn-primary" [disabled]="!form.title.trim()" (click)="savePlan()">
+      حفظ
+    </button>
+  </div>
+</ng-template>

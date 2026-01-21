@@ -1,0 +1,11 @@
+/* src/app/pages/maps/maps.component.scss */
+.full-map {
+  background-image: url('/assets/img/maps/northern-pins.png'); /* ← غيّر الاسم حسب صورتك */
+  background-position: left;  /* تتموضع بالمنتصف */
+  background-repeat: no-repeat; 
+  width: 100vw;                 /* عرض كامل */
+  height: 100vh;                /* ارتفاع كامل */
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}

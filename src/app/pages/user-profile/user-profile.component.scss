@@ -1,0 +1,15 @@
+/* حذف الخلفية من الهيرو (الأحمر الشفاف) */
+.header.pb-8.pt-5.pt-lg-8.d-flex.align-items-center {
+  background: linear-gradient(87deg, #f56036 0, #f5365c 100%) !important;
+  background-image: none !important;
+  background-size: unset !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 300px;
+}
+
+.avatar-xl {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+}

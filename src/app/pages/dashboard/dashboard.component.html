@@ -1,0 +1,96 @@
+<div class="admin-dashboard">
+
+  <!-- Hero / Gradient Header -->
+  <div class="dashboard-hero">
+    <div class="hero-inner">
+      <h2 class="hero-title">لوحة الإدارة</h2>
+      <p class="hero-sub">نظرة عامة على المستخدمين، الخطط، والماكينات</p>
+    </div>
+  </div>
+
+  <div class="container-fluid dashboard-content">
+
+    <!-- KPIs -->
+    <div class="row">
+      <div class="col-sm-6 col-lg-3 mb-3">
+        <div class="card card-stats glass-card h-100">
+          <div class="card-body">
+            <h6 class="text-muted mb-1">{{ kpis.title1 }}</h6>
+            <h3 class="mb-0">{{ kpis.value1 }}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3 mb-3">
+        <div class="card card-stats glass-card h-100">
+          <div class="card-body">
+            <h6 class="text-muted mb-1">{{ kpis.title2 }}</h6>
+            <h3 class="mb-0">{{ kpis.value2 }}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3 mb-3">
+        <div class="card card-stats glass-card h-100">
+          <div class="card-body">
+            <h6 class="text-muted mb-1">{{ kpis.title3 }}</h6>
+            <h3 class="mb-0">{{ kpis.value3 }}</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3 mb-3">
+        <div class="card card-stats glass-card h-100">
+          <div class="card-body">
+            <h6 class="text-muted mb-1">{{ kpis.title4 }}</h6>
+            <h3 class="mb-0">{{ kpis.value4 }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Summary: Users / Trainers / Machines -->
+    <div class="row">
+      <div class="col-12 mb-3">
+        <div class="card glass-card h-100">
+          <div class="card-header gradient pb-2">
+            <h5 class="mb-0">ملخص عام</h5>
+            <small class="text-white-50">Users / Trainers / Machines</small>
+          </div>
+          <div class="card-body chart-body">
+            <canvas #summaryRef></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="row">
+      <div class="col-lg-5 mb-3">
+        <div class="card glass-card h-100">
+          <div class="card-header gradient pb-2">
+            <h5 class="mb-0">النشاط العام</h5>
+            <small class="text-white-50">
+              {{ role === 'admin' ? 'Users Active vs Inactive' :
+                 role === 'trainer' ? 'Trainees Active vs Inactive' :
+                 'Plans Active vs Inactive' }}
+            </small>
+          </div>
+          <div class="card-body chart-body">
+            <canvas #doughnutRef></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-7 mb-3">
+        <div class="card glass-card h-100">
+          <div class="card-header gradient pb-2">
+            <h5 class="mb-0">توزيع الخطط حسب أيام/أسبوع</h5>
+            <small class="text-white-50">نظرة سريعة على تركيب الجداول الأسبوعية</small>
+          </div>
+          <div class="card-body chart-body">
+            <canvas #barRef></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

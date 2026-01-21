@@ -1,0 +1,68 @@
+<nav class="navbar navbar-vertical navbar-expand-md navbar-light bg-white"
+     id="sidenav-main"
+     [class.show]="!isCollapsed">
+
+  <!-- Toggler -->
+  <button class="navbar-toggler" type="button"
+          (click)="isCollapsed = !isCollapsed"
+          aria-controls="sidenav-collapse-main" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Brand -->
+  <a class="navbar-brand pt-0" routerLinkActive="active" [routerLink]="['/dashboard']">
+    <img src="./assets/img/brand/red.png" class="navbar-brand-img" alt="Gym Dashboard">
+  </a>
+
+  <!-- Collapse -->
+  <div class="collapse navbar-collapse" [ngbCollapse]="isCollapsed" id="sidenav-collapse-main">
+
+    <!-- Mobile collapse header -->
+    <div class="navbar-collapse-header d-md-none">
+      <div class="row">
+        <div class="col-6 collapse-brand">
+          <a routerLinkActive="active" [routerLink]="['/dashboard']">
+            <img src="./assets/img/brand/blue.png" alt="Brand">
+          </a>
+        </div>
+        <div class="col-6 collapse-close text-left">
+          <button type="button" class="navbar-toggler" (click)="isCollapsed = !isCollapsed" aria-label="Close">
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <ul class="navbar-nav">
+      <!-- عناصر القائمة الموجودة مسبقًا -->
+      <li *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
+        <a routerLinkActive="active" [routerLink]="[menuItem.path]" class="nav-link">
+          <i class="ni {{menuItem.icon}}"></i>
+          {{ menuItem.title }}
+        </a>
+      </li>
+
+      <!-- Divider بسيط (اختياري) -->
+      <li class="nav-item mt-2">
+        <hr class="my-1">
+      </li>
+<li *ngIf="role === 'admin'" class="nav-item">
+  <a class="nav-link" [routerLink]="['/machines']">
+    <i class="ni ni-settings-gear-65 text-primary"></i>
+    <span class="nav-link-text">الأجهزة</span>
+  </a>
+</li>
+
+      <!-- Contact Us: ظاهر للجميع -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/contact-us" routerLinkActive="active" aria-label="Contact Us">
+          <i class="ni ni-support-16 text-info"></i>
+          <span class="nav-link-text">Contact Us</span>
+        </a>
+      </li>
+    </ul>
+
+  </div>
+</nav>

@@ -1,0 +1,89 @@
+/* ===== Auth card polish (Register/Login) ===== */
+
+/* نزّل الكرت شوي ووسّطه بالصفحة */
+.layout-auth .auth-center {
+  margin-top: -6rem;                 /* يطلع من تحت الهيدر المثلّث */
+  display: flex;
+  justify-content: center;
+}
+
+/* ثبّت عرض الكرت: أنيق ومقروء على الديسكتوب والموبايل */
+.layout-auth .auth-center .col-lg-6.col-md-8 {
+  flex: 0 1 560px;                   /* العرض المثالي للكرت */
+  max-width: 560px;
+}
+
+/* الكرت الأبيض: تدوير زوايا + ظلّ خفيف + حدود ناعمة */
+.auth-card {
+  background-color: #fff;
+  border-radius: 1rem;
+  border: 1px solid rgba(0,0,0,.05);
+  box-shadow: 0 20px 50px rgba(22,28,45,.15);
+  overflow: hidden;                  /* يوحّد زوايا الهيدر/البودي */
+}
+
+/* خط فاصل خفيف أسفل الهيدر */
+.auth-card .card-header {
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  padding-bottom: 1rem !important;
+}
+
+/* راحة بصريّة داخل البودي */
+.auth-card .card-body {
+  padding: 2rem 2rem 1.75rem !important;
+}
+
+/* الحقول: ارتفاع مريح وتدوير زوايا */
+.auth-card .form-control {
+  height: calc(2.6rem + 2px);
+  border-radius: .625rem !important;
+}
+
+/* أيقونة الحقل (input-group-text) تدوير مطابق */
+.auth-card .input-group-text {
+  border-radius: .625rem 0 0 .625rem !important;
+}
+
+/* الأزرار لمسة موحّدة */
+.auth-card .btn {
+  border-radius: .625rem;
+}
+
+.auth-card .btn-icon .btn-inner--icon img {
+  width: 18px; height: 18px;
+}
+
+/* مسافات أنعم للأزرار الاجتماعية */
+.auth-card .card-header .btn {
+  padding: .6rem 1rem;
+}
+
+/* صغر الشاشة */
+@media (max-width: 575.98px) {
+  .layout-auth .auth-center { margin-top: -4rem; }
+  .layout-auth .auth-center .col-lg-6.col-md-8 {
+    flex-basis: 100%;
+    max-width: 100%;
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+  .auth-card { border-radius: .75rem; }
+  .auth-card .card-body { padding: 1.5rem !important; }
+}
+
+/* تباين بسيط للنصوص الرمادية داخل الكرت */
+.auth-card .text-muted { color: #6b7280 !important; }
+
+/* (اختياري) ثبّت الخلفية الملوّنة تحت المحتوى بدون ما تغطيه */
+/* ===== Header section (إزالة اللون البرتقالي) ===== */
+.layout-auth .header.bg-gradient-danger {
+  background: #0f2742 !important;      /* الأزرق الغامق الأساسي */
+  background-image: none !important;   /* يلغي الجرانديانت */
+  box-shadow: none;
+  border-bottom: none;
+}
+
+/* لو في شكل الموجة السفلي (separator) خليه يتماشى */
+.layout-auth .header .separator svg polygon {
+  fill: #0f2742 !important;
+}

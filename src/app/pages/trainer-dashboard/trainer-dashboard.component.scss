@@ -1,0 +1,74 @@
+/* ===== منظر عام للوحة المدرّب ===== */
+
+.trainer-dashboard {
+  direction: rtl;
+}
+
+/* Hero خلفية لطيفة */
+.dashboard-hero {
+  background:
+    radial-gradient(900px 420px at 95% -10%, rgba(255, 99, 132, .22), transparent 60%),
+    linear-gradient(135deg, #f5365c 0%, #fb6340 55%, #5e72e4 100%);
+  border-bottom: 1px solid rgba(255,255,255,.15);
+  padding: 1.75rem 0;
+  color: #fff;
+
+  .hero-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  .hero-title { font-weight: 800; letter-spacing: .5px; margin: 0; }
+  .hero-sub   { opacity: .9; margin: .25rem 0 0; }
+}
+
+.dashboard-content {
+  margin-top: -10px;
+}
+
+/* زجاج خفيف */
+.glass {
+  background: rgba(255,255,255,.9);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(0,0,0,.06);
+  border-radius: .85rem;
+  box-shadow: 0 12px 24px rgba(17, 17, 26, .06);
+}
+
+/* بطاقات الإحصاءات */
+.stat-card .card-body { padding: 1rem 1.25rem; }
+.stat-card .stat-label { font-size: .9rem; color: #6c757d; }
+.stat-card .stat-value { font-size: 1.8rem; font-weight: 800; line-height: 1; }
+
+/* بطاقات الرسوم */
+.chart-card .card-header {
+  background: transparent;
+  border-bottom: 1px solid rgba(0,0,0,.05);
+}
+.chart-body {
+  height: 300px; /* يضبط ارتفاع الكانڤاس */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.chart-body canvas { width: 100% !important; height: 100% !important; }
+
+/* الشارات */
+.badge-success   { background: #2dce89; }
+.badge-secondary { background: #adb5bd; }
+
+/* الجدول */
+.nice-table thead th {
+  background: rgba(0,0,0,.03);
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  font-weight: 700;
+}
+.nice-table td, .nice-table th { vertical-align: middle; }
+.nice-table .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+
+/* صغّر الهوامش بالموبايل */
+@media (max-width: 576px) {
+  .hero-title { font-size: 1.25rem; }
+  .chart-body { height: 260px; }
+}
